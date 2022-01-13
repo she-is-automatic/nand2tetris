@@ -1,0 +1,10 @@
+/* if in is negative, out = 1*/
+
+CHIP IsNeg16 {
+    IN in[16];
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    Or(a=in[15], b=false, out=out);
+}
