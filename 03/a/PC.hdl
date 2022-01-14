@@ -1,0 +1,38 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+
+    // NOTES:
+    // 题目要求 if / else if / else if / else执行，即若有多个匹配，前面的优先级高
+    // 电路要求 reset / load / inc 分别选择，都要执行，故后边的优先级高
+    // 因此，要按照倒序书写各条件
+
+    // inc
+    Inc16(in=preout, out=preoutinc);
+    Mux16(a=preout, b=preoutinc, sel=inc, out=o1);
+
+    // load
+    Mux16(a=o1, b=in, sel=load, out=o2);
+
+    // reset
+    Mux16(a=o2, b=false, sel=reset, out=o3);
+
+    // input includes reset/load/inc/preout, always load
+    Register(in=o3, load=true, out=preout, out=out);
+}
