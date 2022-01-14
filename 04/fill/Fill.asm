@@ -21,17 +21,17 @@
     @KBD
     D=M
 
-    @i
+    @i      // 进入循环前初始化i=0
     M=0
     @draw
-    D;JNE
+    D;JNE   // 当按下键盘时，进入draw循环
 
-    @i
+    @i      // 进入循环前初始化i=0
     M=0
     @cls
-    0;JMP
-    
-    @LOOP
+    0;JMP   // 无条件清屏
+
+    @LOOP   // 无限循环
     0;JMP
 
 (draw)
@@ -42,8 +42,9 @@
     @R0
     D=M-D
     @LOOP
-    D;JEQ
+    D;JEQ   // 屏幕全部填充为黑色，结束draw，继续LOOP的无限循环
 
+    // mem[screen+i]=1, ++i
     @SCREEN
 	D=A
 	@i
@@ -65,8 +66,9 @@
     @R0
     D=M-D
     @LOOP
-    D;JEQ
+    D;JEQ       // 屏幕全部填充为白色，结束cls，继续LOOP的无限循环
 
+    // mem[screen+i]=0, ++i
     @SCREEN
 	D=A
 	@i
